@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
+
+import route from "./routes/itemRoute.js";
+
 const app = express();
 app.use(bodyParser.json());
 dotenv.config();
@@ -16,3 +19,6 @@ mongoose.connect(MONGOURL).then(() => {
         console.log(`Server is running on port: ${PORT}`);
     });
 }).catch((error) => console.log(error));
+
+
+app.use("/api/item", route);
