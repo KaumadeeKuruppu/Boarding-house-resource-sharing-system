@@ -1,0 +1,29 @@
+{
+  "name": "boarding-house-resource-sharing-system",
+  "version": "1.0.0",
+  "description": "A RESTful API for a boarding house resource-sharing platform. Built with Node.js, Express, and MongoDB, this system allows students to list, find, and manage shared essential items like kitchenware and electronics to foster a sharing economy in student accommodations.",
+  "homepage": "https://github.com/KaumadeeKuruppu/Boarding-house-resource-sharing-system#readme",
+  "bugs": {
+    "url": "https://github.com/KaumadeeKuruppu/Boarding-house-resource-sharing-system/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaumadeeKuruppu/Boarding-house-resource-sharing-system.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start" : "nodemon index.js"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
