@@ -3,10 +3,19 @@ import Item from "../model/itemModel.js";
 export const create = async (req, res) => {
     try {
         const itemData = new Item(req.body); 
+        const {itemName ,contact} = itemData;
+
+        if(!itemName || !contact)
+        {
+            return res.status(400).json({message:"Item name and contact are required"});
+        }
+        if (contact.length < 10) {
+            return res.status(400).json({ message: "Please enter a valid phone number." });
+        }
         const savedItem = await itemData.save(); 
-        res.status(200).json(savedItem); 
+        res.status(200).json({message:"Item shared successfully!",data:savedItem}); 
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error." }); 
+        res.status(500).json({ error: error.message }); 
     }
 }
 
@@ -29,10 +38,15 @@ export const update = async (req, res) => {
         if (!itemExist) {
             return res.status(404).json({ message: "Item not found." }); 
         }
+
+        if (req.body.contact && req.body.contact.length < 10) {
+            return res.status(400).json({ message: "Invalid contact number length." });
+        }
+
         const updatedItem = await Item.findByIdAndUpdate(id, req.body, { new: true }); 
-        res.status(201).json(updatedItem);
+        res.status(201).json({ message: "Item updated successfully!", data: updateItem });
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error." }); 
+        res.status(500).json({ error: error.message}); 
     }
 }
 
@@ -46,6 +60,6 @@ export const deleteItem = async (req, res) => {
         await Item.findByIdAndDelete(id); 
         res.status(201).json({ message: "Item deleted Successfully." }); 
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error." }); 
+        res.status(500).json({ error:error.message}); 
     }
 }
