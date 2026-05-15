@@ -255,7 +255,7 @@ npm install
 
 ### 5. Admin Login
 
-The frontend includes a **built-in Admin Login** page to protect the dashboard. No backend changes are needed — authentication is handled entirely on the client side.
+The frontend includes a **built-in Admin Login** page to protect the dashboard. No backend changes. Authentication is handled entirely on the client side.
 
 - **Default Password:** `admin123`
 - When you open the app at `http://localhost:3000`, the login screen is shown first
@@ -346,11 +346,6 @@ Boarding-house-resource-sharing-system/
 
 ---
 
-## License
-
-This project is licensed under the ISC License.
-
----
 
 ## Repository
 
