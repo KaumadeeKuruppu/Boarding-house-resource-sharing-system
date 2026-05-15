@@ -1,12 +1,12 @@
 # Boarding House Resource Sharing System
 
-A full-stack web application that enables boarding house residents to list, discover, and manage shared items — fostering a community-driven sharing economy within student accommodations.
+A  web application that enables boarding house residents to list, discover, and manage shared items — fostering a community-driven sharing economy within student accommodations.
 
 ---
 
 ## Problem Description
 
-Students living in boarding houses often purchase or bring everyday items — kitchenware, electronics, stationery — that sit idle most of the time. Without any organized system, residents have no way of knowing what others have available to borrow or share, which leads to:
+Students living in boarding houses often purchase or bring everyday items — kitchenware, electronics, stationery — that sit idle most of the time. Without any organized system, students have no way of knowing what others have available to share, which leads to:
 
 - Unnecessary duplicate purchases
 - Wasted resources and money
@@ -30,7 +30,7 @@ This promotes a sharing culture, reduces waste, and builds a stronger sense of c
 
 ## Features
 
-- View all shared items in a responsive card grid
+- View all shared items
 - Add new items with name, category, boarding address, and contact details
 - Edit existing listings at any time
 - Delete a listing with a confirmation step to prevent accidents
@@ -59,7 +59,7 @@ This promotes a sharing culture, reduces waste, and builds a stronger sense of c
 
 ### Frontend
 
-- **React 19** — UI library for building components
+- **React ** — UI library for building components
 - **Axios** — HTTP client for API communication
 - **Lucide React** — Icon library
 - **React Router DOM** — Client-side routing
