@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {
   Plus, Search, X, Package, RefreshCw,
-  Share2, LayoutGrid, AlertTriangle
+  Share2, LayoutGrid, AlertTriangle, Lock, LogOut, Eye, EyeOff
 } from 'lucide-react';
 
 import './App.css';
@@ -12,6 +12,7 @@ import ConfirmDialog from './components/ConfirmDialog';
 import ToastContainer, { addToast } from './components/Toast';
 
 const API = 'http://localhost:8000/api/item';
+const ADMIN_PASSWORD = 'admin123';
 
 const CATEGORIES = ['All', 'Kitchen', 'Study', 'Leisure', 'Tools', 'Electronics', 'Furniture', 'Stationery', 'Books', 'Clothing', 'Sports', 'Other'];
 const STATUS_FILTERS = ['All', 'Available', 'Not Available'];
@@ -27,7 +28,115 @@ function SkeletonCard() {
   );
 }
 
+/* ══════════════════════════════════════════
+   LOGIN PAGE COMPONENT
+══════════════════════════════════════════ */
+function LoginPage({ onLogin }) {
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [shaking, setShaking] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (password === ADMIN_PASSWORD) {
+      onLogin();
+    } else {
+      setError('Incorrect password. Please try again.');
+      setShaking(true);
+      setTimeout(() => setShaking(false), 500);
+    }
+  };
+
+  return (
+    <div className="login-page">
+      {/* Animated background orbs */}
+      <div className="login-bg-orb orb-1" />
+      <div className="login-bg-orb orb-2" />
+      <div className="login-bg-orb orb-3" />
+
+      <div className={`login-card ${shaking ? 'shake' : ''}`}>
+        {/* Logo / Brand */}
+        <div className="login-brand">
+          <div className="login-logo">
+            <Share2 size={28} />
+          </div>
+          <h1>Boarding <span>Resource</span> Sharing</h1>
+          <p>Admin Portal — Please sign in to continue</p>
+        </div>
+
+        {/* Divider */}
+        <div className="login-divider" />
+
+        {/* Lock icon */}
+        <div className="login-lock-icon">
+          <Lock size={20} />
+        </div>
+        <p className="login-lock-label">Admin Access</p>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="login-field">
+            <label htmlFor="admin-password" className="login-label">Admin Password</label>
+            <div className="login-input-wrap">
+              <Lock size={15} className="login-input-icon" />
+              <input
+                id="admin-password"
+                type={showPassword ? 'text' : 'password'}
+                className={`login-input ${error ? 'login-input-error' : ''}`}
+                placeholder="Enter admin password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                autoFocus
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="login-toggle-vis"
+                onClick={() => setShowPassword(v => !v)}
+                title={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+            {error && <p className="login-error-msg">{error}</p>}
+          </div>
+
+          <button id="login-submit-btn" type="submit" className="login-btn">
+            Sign In
+          </button>
+        </form>
+
+        <p className="login-footer-note">
+          🔒 This portal is restricted to authorised administrators only.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════
+   MAIN APP
+══════════════════════════════════════════ */
 export default function App() {
+  /* ── Auth ── */
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => localStorage.getItem('brs_admin_logged_in') === 'true'
+  );
+
+  const handleLogin = () => {
+    localStorage.setItem('brs_admin_logged_in', 'true');
+    setIsLoggedIn(true);
+    addToast('Welcome back, Admin! 👋', 'success');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('brs_admin_logged_in');
+    setIsLoggedIn(false);
+    addToast('Logged out successfully.', 'info');
+  };
+
+  /* ── Data ── */
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState('All');
@@ -39,8 +148,8 @@ export default function App() {
 
   const [showModal, setShowModal] = useState(false);
   const [editItem, setEditItem] = useState(null);
-  const [confirmTarget, setConfirmTarget] = useState(null);   // delete target
-  const [toggleTarget, setToggleTarget] = useState(null);   // availability toggle target
+  const [confirmTarget, setConfirmTarget] = useState(null);
+  const [toggleTarget, setToggleTarget] = useState(null);
 
   /* ── Fetch ── */
   const fetchItems = useCallback(async () => {
@@ -57,7 +166,9 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => { fetchItems(); }, [fetchItems]);
+  useEffect(() => {
+    if (isLoggedIn) fetchItems();
+  }, [fetchItems, isLoggedIn]);
 
   /* ── Filter ── */
   const filtered = items.filter(item => {
@@ -80,7 +191,7 @@ export default function App() {
 
   const notFound = search.trim() !== '' && filtered.length === 0 && !loading;
 
-  /* ── Save (create / update) ── */
+  /* ── Save ── */
   const handleSave = async (formData) => {
     setSaving(true);
     try {
@@ -135,6 +246,17 @@ export default function App() {
 
   const availableCount = items.filter(i => i.availability === 'Available').length;
 
+  /* ── Show Login if not authenticated ── */
+  if (!isLoggedIn) {
+    return (
+      <>
+        <ToastContainer />
+        <LoginPage onLogin={handleLogin} />
+      </>
+    );
+  }
+
+  /* ── Dashboard ── */
   return (
     <div className="app-wrapper">
       <ToastContainer />
@@ -162,6 +284,14 @@ export default function App() {
           <button className="btn btn-primary" onClick={() => { setEditItem(null); setShowModal(true); }}>
             <Plus size={18} /> Add Item
           </button>
+          <button
+            id="logout-btn"
+            className="btn btn-logout"
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <LogOut size={16} /> Logout
+          </button>
         </div>
       </header>
 
@@ -187,7 +317,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Filters — dropdowns */}
+        {/* Filters */}
         <div className="filter-row" style={{ marginBottom: '10px' }}>
           <div className="filter-select-wrap">
             <label className="filter-select-label">Category</label>

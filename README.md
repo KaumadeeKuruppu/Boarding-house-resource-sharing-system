@@ -253,6 +253,18 @@ cd frontend
 npm install
 ```
 
+### 5. Admin Login
+
+The frontend includes a **built-in Admin Login** page to protect the dashboard. No backend changes are needed — authentication is handled entirely on the client side.
+
+- **Default Password:** `admin123`
+- When you open the app at `http://localhost:3000`, the login screen is shown first
+- Enter the admin password and click **Sign In** to access the dashboard
+- Your login session is saved in `localStorage` — refreshing the page will keep you logged in
+- Click the **Logout** button in the top-right corner of the header to end the session
+
+> **Note:** To change the password, update the `ADMIN_PASSWORD` constant in `frontend/src/App.js`.
+
 ---
 
 ## How to Run the Project
