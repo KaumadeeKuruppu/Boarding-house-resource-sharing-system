@@ -48,26 +48,22 @@ This promotes a sharing culture, reduces waste, and builds a stronger sense of c
 
 ### Backend
 
-| Technology | Purpose |
-|---|---|
-| Node.js | JavaScript runtime environment |
-| Express.js v5 | RESTful API framework |
-| MongoDB | NoSQL database for storing item data |
-| Mongoose | MongoDB ODM for schema modeling |
-| dotenv | Environment variable management |
-| cors | Cross-Origin Resource Sharing |
-| body-parser | Request body parsing middleware |
-| nodemon | Auto-restart server during development |
+- **Node.js** — JavaScript runtime environment
+- **Express.js v5** — RESTful API framework
+- **MongoDB** — NoSQL database for storing item data
+- **Mongoose** — MongoDB ODM for schema modeling
+- **dotenv** — Environment variable management
+- **cors** — Cross-Origin Resource Sharing
+- **body-parser** — Request body parsing middleware
+- **nodemon** — Auto-restart server during development
 
 ### Frontend
 
-| Technology | Purpose |
-|---|---|
-| React 19 | UI library for building components |
-| Axios | HTTP client for API communication |
-| Lucide React | Icon library |
-| React Router DOM | Client-side routing |
-| CSS (Vanilla) | Custom dark-themed styling |
+- **React 19** — UI library for building components
+- **Axios** — HTTP client for API communication
+- **Lucide React** — Icon library
+- **React Router DOM** — Client-side routing
+- **CSS (Vanilla)** — Custom dark-themed styling
 
 ---
 
@@ -329,14 +325,12 @@ Boarding-house-resource-sharing-system/
 
 ## Item Data Model
 
-| Field | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `itemName` | String | Yes | — | Name of the shared item |
-| `category` | String | Yes | — | Category (Kitchen, Study, Electronics, etc.) |
-| `ownerName` | String | Yes | — | Name of the person sharing the item |
-| `boardingAddress` | String | Yes | — | Address of the owner's boarding house |
-| `contact` | String | Yes | — | Contact number (minimum 10 digits) |
-| `availability` | String | No | `"Available"` | Current availability status |
+- **`itemName`** *(String, Required)* — Name of the shared item
+- **`category`** *(String, Required)* — Category (Kitchen, Study, Electronics, etc.)
+- **`ownerName`** *(String, Required)* — Name of the person sharing the item
+- **`boardingAddress`** *(String, Required)* — Address of the owner's boarding house
+- **`contact`** *(String, Required)* — Contact number (minimum 10 digits)
+- **`availability`** *(String, Optional, Default: `"Available"`)* — Current availability status
 
 ---
 
