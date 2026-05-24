@@ -31,7 +31,6 @@ export const fetch = async (req, res) => {
     }
 }
 
-
 export const getSingleItem = async (req, res) => {
     try {
     
